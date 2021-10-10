@@ -8,7 +8,7 @@ public class Track extends Thread {
     private int distanceTraveled = 0;
 
     //вероятности
-    private double probabilityOut = 0.2;
+    private double probabilityOut = 0.001;
     private double probabilityAcceleration = 0.3;
     private double probabilityStop = 0.4;
     private double probabilitySlow = 0.5;
@@ -23,25 +23,26 @@ public class Track extends Thread {
 
     @Override
     public void run() {
-        while ((!status) || (distanceTraveled == trackLength)) {
+        while ((status) && (distanceTraveled < trackLength)) {
             double test = Math.random();
             setSpeed(test);
             distanceTraveled += speed;
+            //System.out.println("Horse name: " + name + " distance: " + String.valueOf(distanceTraveled));
             try {
-                Thread.sleep(1500);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
         if (status) {
-            System.out.println("name: " + name);
+            //System.out.println("Horse " + name);
+            main.setTestName(name);
         } else {
             System.out.println("Horse lose " + name);
         }
     }
 
     private void setSpeed(double mathProbability) {
-        System.out.println(mathProbability);
         if (mathProbability <= probabilityOut) {
             status = false;
             speed = 0;
